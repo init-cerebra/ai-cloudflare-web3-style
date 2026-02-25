@@ -1,97 +1,109 @@
 "use client"
 
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, Layers, Shield, Cpu, Globe, Server, Zap } from "lucide-react"
+import type { LucideIcon } from "lucide-react"
 
-const projects = [
+interface Project {
+  title: string
+  description: string
+  tags: string[]
+  icon: LucideIcon
+  color: "cyan" | "purple"
+}
+
+const projects: Project[] = [
   {
     title: "K8s Auto-Scaler",
-    description: "Custom Kubernetes auto-scaling solution with predictive algorithms for optimal resource allocation.",
+    description: "Custom Kubernetes auto-scaling with predictive algorithms for optimal resource allocation across 500+ nodes.",
     tags: ["Kubernetes", "Go", "Prometheus"],
-    color: "cyan" as const,
+    icon: Layers,
+    color: "cyan",
   },
   {
-    title: "DeFi Protocol Dashboard",
-    description: "Real-time monitoring dashboard for decentralized finance protocols with TVL tracking and alerts.",
-    tags: ["Ethereum", "React", "TheGraph"],
-    color: "purple" as const,
+    title: "DeCloud Infrastructure",
+    description: "Decentralized cloud platform built on Talos OS with GitOps workflows and zero-trust networking.",
+    tags: ["Talos OS", "FluxCD", "Cilium"],
+    icon: Globe,
+    color: "purple",
   },
   {
-    title: "CI/CD Platform",
-    description: "Enterprise CI/CD orchestration platform supporting multi-cloud deployments with zero-downtime releases.",
-    tags: ["Jenkins", "Terraform", "AWS"],
-    color: "cyan" as const,
+    title: "Zero-Downtime Migration",
+    description: "Enterprise 54TB+ data migration to GCP with zero service interruption and automated rollback.",
+    tags: ["GCP", "Terraform", "Ansible"],
+    icon: Server,
+    color: "cyan",
   },
   {
-    title: "NFT Minting Engine",
-    description: "Scalable NFT minting infrastructure with IPFS storage and on-chain metadata management.",
-    tags: ["Solana", "Rust", "IPFS"],
-    color: "purple" as const,
+    title: "eBPF Security Suite",
+    description: "Kernel-level security monitoring using eBPF for deep traffic analysis and threat detection.",
+    tags: ["eBPF", "Cilium", "Vault"],
+    icon: Shield,
+    color: "purple",
   },
   {
-    title: "Infra Monitoring Suite",
-    description: "Comprehensive infrastructure monitoring with custom Grafana dashboards and PagerDuty integration.",
-    tags: ["Grafana", "Prometheus", "Alertmanager"],
-    color: "cyan" as const,
+    title: "CI/CD Orchestrator",
+    description: "Multi-cloud deployment platform supporting zero-downtime releases across 50+ microservices.",
+    tags: ["Jenkins", "ArgoCD", "Docker"],
+    icon: Zap,
+    color: "cyan",
   },
   {
-    title: "Smart Contract Audit Tool",
-    description: "Automated security analysis tool for Solidity smart contracts with vulnerability detection.",
-    tags: ["Solidity", "Python", "Security"],
-    color: "purple" as const,
+    title: "Blockchain Validator Infra",
+    description: "High-availability validator node infrastructure for Ethereum and Solana with 99.99% uptime.",
+    tags: ["Ethereum", "Solana", "Monitoring"],
+    icon: Cpu,
+    color: "purple",
   },
 ]
 
 export function GallerySection() {
   return (
-    <section id="gallery" className="relative z-10 px-6 py-20">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-10 flex items-center gap-3">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-            Architecture Gallery
-          </h2>
+    <section id="gallery" className="relative z-10 px-4 py-20 sm:px-6">
+      <div className="mx-auto max-w-6xl">
+        {/* Section header */}
+        <div className="mb-8 flex items-center gap-3">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-neon-cyan">
+            {">"} Architecture Gallery
+          </span>
           <div className="h-px flex-1 bg-border" />
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => {
-            const borderClass = project.color === "cyan" ? "hover:border-neon-cyan/30" : "hover:border-neon-purple/30"
-            const glowClass = project.color === "cyan" ? "neon-glow-cyan" : "neon-glow-purple"
-            const accentColor = project.color === "cyan" ? "text-neon-cyan" : "text-neon-purple"
-            const tagBg = project.color === "cyan" ? "bg-neon-cyan/10 text-neon-cyan" : "bg-neon-purple/10 text-neon-purple"
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((p) => {
+            const Icon = p.icon
+            const isCyan = p.color === "cyan"
+            const colorClass = isCyan ? "text-neon-cyan" : "text-neon-purple"
+            const hoverClass = isCyan ? "" : "fui-card-purple"
+            const tagBg = isCyan
+              ? "bg-neon-cyan/8 text-neon-cyan border-neon-cyan/15"
+              : "bg-neon-purple/8 text-neon-purple border-neon-purple/15"
 
             return (
               <article
-                key={project.title}
-                className={`glass group cursor-pointer rounded-xl p-6 transition-all hover:scale-[1.02] ${borderClass} ${glowClass}`}
+                key={p.title}
+                className={`fui-card ${hoverClass} group cursor-pointer rounded-lg p-5 transition-all`}
               >
-                {/* Abstract project visual */}
-                <div className="mb-5 flex h-32 items-center justify-center rounded-lg bg-secondary/40">
-                  <div className="relative">
-                    <div
-                      className={`h-16 w-16 rounded-xl ${project.color === "cyan" ? "bg-neon-cyan/10" : "bg-neon-purple/10"} flex items-center justify-center`}
-                    >
-                      <div className={`h-6 w-6 rounded ${project.color === "cyan" ? "bg-neon-cyan/30" : "bg-neon-purple/30"}`} />
-                    </div>
-                    {/* Decorative dots */}
-                    <div className={`absolute -right-2 -top-2 h-2 w-2 rounded-full ${project.color === "cyan" ? "bg-neon-cyan/50" : "bg-neon-purple/50"}`} />
-                    <div className={`absolute -bottom-1 -left-3 h-1.5 w-1.5 rounded-full ${project.color === "cyan" ? "bg-neon-cyan/30" : "bg-neon-purple/30"}`} />
-                  </div>
+                {/* Icon area */}
+                <div className="mb-4 flex h-20 items-center justify-center rounded border border-border bg-secondary/30">
+                  <Icon className={`h-8 w-8 ${colorClass} opacity-60 transition-opacity group-hover:opacity-100`} />
                 </div>
 
-                <div className="mb-3 flex items-center justify-between">
-                  <h3 className={`font-semibold ${accentColor}`}>{project.title}</h3>
-                  <ExternalLink className="h-4 w-4 text-muted-foreground opacity-0 transition-all group-hover:opacity-100" />
+                <div className="mb-2 flex items-center justify-between">
+                  <h3 className={`text-xs font-bold uppercase tracking-wider ${colorClass}`}>
+                    {p.title}
+                  </h3>
+                  <ExternalLink className="h-3 w-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
                 </div>
 
-                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                  {project.description}
+                <p className="mb-4 text-[11px] leading-relaxed text-muted-foreground">
+                  {p.description}
                 </p>
 
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
+                <div className="flex flex-wrap gap-1.5">
+                  {p.tags.map((tag) => (
                     <span
                       key={tag}
-                      className={`rounded-md px-2 py-0.5 text-xs font-medium ${tagBg}`}
+                      className={`rounded border px-2 py-0.5 text-[9px] ${tagBg}`}
                     >
                       {tag}
                     </span>

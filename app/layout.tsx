@@ -1,20 +1,16 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Geist_Mono } from 'next/font/google'
+import { Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const _inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-})
 const _geistMono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-geist-mono',
 })
 
 export const metadata: Metadata = {
-  title: 'Viacheslav Krailo | DevOps Engineer & Web3 Specialist',
-  description: 'Senior DevOps Engineer & Web3 Specialist with 6+ years of experience. Expert in Kubernetes, Terraform, AWS, Jenkins, Ethereum, and Solana.',
+  title: 'Viacheslav Krailo // Infra_OS | DevOps & Web3',
+  description: 'Senior DevOps Engineer & Web3 Specialist. 6+ years orchestrating cloud infrastructure, Kubernetes clusters, and blockchain systems.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -36,7 +32,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#0a0e1a',
+  themeColor: '#020617',
 }
 
 export default function RootLayout({
@@ -46,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${_inter.variable} ${_geistMono.variable} font-sans antialiased`}>
+      <body className={`${_geistMono.variable} font-mono antialiased`}>
         {children}
         <Analytics />
       </body>
