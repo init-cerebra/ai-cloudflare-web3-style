@@ -52,7 +52,7 @@ export function Navbar() {
               <span className="h-1.5 w-1.5 rounded-full bg-neon-cyan" />
               Node: UA-FRANKIVSK
             </span>
-            {["experience", "skills", "gallery", "contact"].map((s) => (
+            {["experience", "skills", "infra", "gallery", "contact"].map((s) => (
               <a
                 key={s}
                 href={`#${s}`}
