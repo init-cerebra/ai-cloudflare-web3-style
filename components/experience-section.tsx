@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, lazy, Suspense, useCallback } from "react"
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion"
+import { useState, useRef, Suspense, useCallback, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { experienceData } from "@/lib/experience-data"
 import type { ExperienceItem, ToolDetail } from "@/lib/experience-data"
 import { SubNodeDetail } from "@/components/neural-processor"
@@ -28,10 +28,8 @@ function ExperienceCard({
     : "bg-neon-purple/8 text-neon-purple border-neon-purple/15"
 
   return (
-    <motion.article
-      layout
-      layoutId={`exp-${item.id}`}
-      className={`fui-card ${hoverClass} group rounded-lg p-5 transition-all`}
+    <article
+      className={`fui-card ${hoverClass} group rounded-lg p-5`}
     >
       {/* Header */}
       <div className="mb-4 flex items-start justify-between gap-3">
@@ -83,15 +81,13 @@ function ExperienceCard({
       </div>
       <div className="flex flex-wrap gap-1.5">
         {item.tools.map((tool) => (
-          <motion.button
+          <button
             key={tool.name}
-            layoutId={`tool-${tool.name}`}
             onClick={() => onToolClick(tool)}
-            className={`cursor-pointer rounded border px-2.5 py-1 text-[10px] transition-all hover:scale-[1.04] ${tagBg}`}
-            whileTap={{ scale: 0.96 }}
+            className={`cursor-pointer rounded border px-2.5 py-1 text-[10px] transition-transform duration-150 active:scale-95 hover:scale-[1.03] ${tagBg}`}
           >
             {tool.name}
-          </motion.button>
+          </button>
         ))}
         {/* Static tags for remaining items */}
         {item.tags
@@ -105,12 +101,13 @@ function ExperienceCard({
             </span>
           ))}
       </div>
-    </motion.article>
+    </article>
   )
 }
 
 export function ExperienceSection() {
   const [selectedTool, setSelectedTool] = useState<SelectedTool | null>(null)
+  const detailRef = useRef<HTMLDivElement>(null)
 
   const handleToolClick = useCallback(
     (experienceId: string, tool: ToolDetail, color: "cyan" | "purple") => {
@@ -122,6 +119,20 @@ export function ExperienceSection() {
   const handleCloseDetail = useCallback(() => {
     setSelectedTool(null)
   }, [])
+
+  // Auto-scroll to detail panel on mobile when a tool is selected
+  useEffect(() => {
+    if (selectedTool && detailRef.current) {
+      // Small delay so the DOM has rendered the panel
+      const timer = setTimeout(() => {
+        detailRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        })
+      }, 100)
+      return () => clearTimeout(timer)
+    }
+  }, [selectedTool])
 
   return (
     <section id="experience" className="relative z-10 px-4 py-20 sm:px-6">
@@ -137,7 +148,6 @@ export function ExperienceSection() {
           </span>
         </div>
 
-        <LayoutGroup>
           {/* Experience cards grid */}
           <div className="grid gap-5 md:grid-cols-2">
             {experienceData.map((item) => (
@@ -152,14 +162,15 @@ export function ExperienceSection() {
           </div>
 
           {/* Sub-Node Detail Overlay */}
+          <div ref={detailRef} className="scroll-mt-20" />
           <AnimatePresence mode="wait">
             {selectedTool && (
               <motion.div
                 key={selectedTool.tool.name}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.3 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
                 className="mt-6"
               >
                 <Suspense
