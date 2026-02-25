@@ -194,7 +194,6 @@ export function ExperienceSection() {
               </motion.div>
             )}
           </AnimatePresence>
-        </LayoutGroup>
       </div>
     </section>
   )
