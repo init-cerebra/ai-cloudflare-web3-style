@@ -107,7 +107,7 @@ function ExperienceCard({
 
 export function ExperienceSection() {
   const [selectedTool, setSelectedTool] = useState<SelectedTool | null>(null)
-  const detailRef = useRef<HTMLDivElement>(null)
+  const detailRef = useRef<HTMLDivElement | null>(null)
 
   const handleToolClick = useCallback(
     (experienceId: string, tool: ToolDetail, color: "cyan" | "purple") => {
